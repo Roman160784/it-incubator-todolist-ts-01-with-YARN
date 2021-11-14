@@ -35,8 +35,8 @@ const task_3: Array<TaskType> =[
     return (
        <div className='App'>
 <ToDoList title={todoListTitle_1} tasks={task_1}/>
-<ToDoList title={todoListTitle_1} tasks={task_2}/>
-<ToDoList title={todoListTitle_1} tasks={task_3}/>
+<ToDoList title={todoListTitle_2} tasks={task_2}/>
+<ToDoList title={todoListTitle_2} tasks={task_3}/>
        </div>
     );
 }
