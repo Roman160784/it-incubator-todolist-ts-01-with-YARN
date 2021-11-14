@@ -22,14 +22,14 @@ const task_1: Array<TaskType> =[
     {id: 3, title:'REACT', isDone: false},
 ]
 const task_2: Array<TaskType> =[
-    {id: 4, title:'HTML', isDone: true},
-    {id: 5, title:'CSS', isDone: true},
-    {id: 6, title:'REACT', isDone: true},
+    {id: 4, title:'Fish', isDone: true},
+    {id: 5, title:'Beef', isDone: true},
+    {id: 6, title:'Butter', isDone: true},
 ]
 const task_3: Array<TaskType> =[
-    {id: 7, title:'HTML', isDone: true},
-    {id: 8, title:'CSS', isDone: false},
-    {id: 9, title:'REACT', isDone: true},
+    {id: 7, title:'Water', isDone: true},
+    {id: 8, title:'Juice', isDone: false},
+    {id: 9, title:'Cheese', isDone: true},
 ]
 
     return (
