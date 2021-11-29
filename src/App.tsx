@@ -24,6 +24,11 @@ function App() {
         { id: v1(), title: 'REDUX', isDone: false },
     ])
 
+    function chngeTasksStstus (taskID: string, isDone: boolean) {
+        const updatedTasks = (tasks.map(task => task.id === taskID ? {...task, isDone: !task.isDone}:task))
+           setTasks(updatedTasks) 
+    }
+
     function removeTask(taskID: string) {
         setTasks(tasks.filter(task => task.id !== taskID))
     }
@@ -60,6 +65,8 @@ function App() {
                 addTask={addTask}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                filter={filter}
+                chngeTasksStstus={chngeTasksStstus}
             />
         </div>
     );
