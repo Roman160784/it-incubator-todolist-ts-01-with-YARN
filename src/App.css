@@ -7,18 +7,24 @@
   margin-right: 50px;
 }
 
+.active {
+  background-color: cornflowerblue;
+}
+
+.button {
+  background-color: rgb(192, 209, 240);
+  border-radius: 5px;
+}
+
 .error {
-  border: red 1px solid;
+  color: RED
 }
 
-.error-message {
-  color: red;
+.isDone {
+opacity: 0.5;
 }
 
-.active-filter {
-  background-color: aquamarine;
-}
-
-.is-done {
-  opacity: 0.5;
+.input {
+  border-radius: 5px;
+  background-color: powderblue;
 }
