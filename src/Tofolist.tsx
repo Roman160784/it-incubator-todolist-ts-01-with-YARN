@@ -28,7 +28,7 @@ export type TasksType = {
 }
 
 export const Todolist = (props: TodolistType) => {
-
+    
     const removeTaskHandler = (id: string) => { props.removeTask(props.Todolistid, id) }
     const FilterHandler = (value: FilterValueType) => { props.filtringTasks(props.Todolistid,value) }
     const removeTodolistHandler = () => {props.removeTodolist(props.Todolistid)}
