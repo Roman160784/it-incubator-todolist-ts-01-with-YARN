@@ -7,24 +7,15 @@
   margin-right: 50px;
 }
 
-.active {
-  background-color: cornflowerblue;
+.errorClass{
+  color: blueviolet;
 }
 
-.button {
-  background-color: rgb(192, 209, 240);
-  border-radius: 5px;
+.actitveClass{
+  color: whitesmoke;
+  background-color: blue;
 }
 
-.error {
-  color: RED
-}
-
-.isDone {
-opacity: 0.5;
-}
-
-.input {
-  border-radius: 5px;
-  background-color: powderblue;
+.isDoneClass {
+  opacity: 0.5;
 }

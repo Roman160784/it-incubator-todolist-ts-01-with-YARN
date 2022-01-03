@@ -1,36 +1,43 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, useState, KeyboardEvent} from 'react';
 import { Button } from './Button';
 import { Input } from './Input';
 
-
-type AddIteamFormPropsType ={
-    addIteam: ( title: string) => void
+type AddIteamFormType = {
+    picValue: ( title: string) => void
 }
 
-export const AddIteamForm = (props: AddIteamFormPropsType) => {
-    const [error, setError] = useState<string | null>(null)
-    const [title, setTitle] = useState("")
 
-    const onChangeTaskValueHandler = (e: ChangeEvent<HTMLInputElement>) => { setTitle(e.currentTarget.value) }
-    const onkeyPresHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+
+export const AddIteamForm = (props: AddIteamFormType) => {
+
+    const [title, setTitle] = useState("")
+    const [error, setError] = useState<string | null>(null)
+
+    const addTask = () => {
+        if (title.trim() !== "") {
+            props.picValue(title)
+            setTitle("")
+        } else {
+            setError("Incorrect VALUE!!!")
+        }
+    }
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             addTask()
         }
     }
-    const addTask = () => {
-        if (title.trim() !== "") {
-            props.addIteam( title)
-            setTitle("")
-        } else {
-            setError("Icorrect Value")
-        }
+
+    const onChangeValueInTile = (e: ChangeEvent<HTMLInputElement>) => {
+        setError(null)
+        setTitle(e.currentTarget.value)
     }
-return (
-    <div>
-    <Input class="input" value={title} callBackChange={onChangeTaskValueHandler} callBackPress={onkeyPresHandler} />
-    <Button class="button" title="+" callBack={addTask} />
-    {error && <div className='error'>{error}</div>}
-</div>
+
+
+return(
+<div>
+                <Input value={title} onChangeCallBack={onChangeValueInTile} onPresCallBack={onKeyPressHandler} />
+                <Button title="+" class="" clickCalback={addTask} />
+                {error && <div className='errorClass'>{error}</div>}
+            </div>
 )
 }

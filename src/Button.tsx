@@ -1,18 +1,14 @@
-import React from 'react';
-import { isPropertySignature } from 'typescript';
 
+import React from 'react';
 
 type ButtonType = {
-    class: string
-    title: string
-    callBack: () => void
+title: string    
+class: string
+clickCalback: () => void
 }
 
 export const Button = (props: ButtonType) => {
-    return (
-        <button className={props.class}
-            onClick={props.callBack}>
-            {props.title}
-        </button>
-    )
+return(
+    <button className={props.class} onClick={props.clickCalback}>{props.title}</button>
+)
 }
