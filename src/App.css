@@ -7,13 +7,13 @@
   margin-right: 50px;
 }
 
-.errorClass{
-  color: blueviolet;
+.error {
+  color:blueviolet
 }
 
-.actitveClass{
-  color: whitesmoke;
-  background-color: blue;
+.activeClass {
+  color:cornsilk;
+  background-color: cornflowerblue;
 }
 
 .isDoneClass {

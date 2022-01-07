@@ -1,120 +1,99 @@
-
-import React, { useReducer, useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { v1 } from 'uuid';
 import { AddIteamForm } from './AddIteamForm';
 import './App.css';
-import { addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC, taskAC, taskForTlAC, TaskReducers } from './Reducers/TasksReducers';
-import { addTodolistAC, changeFilterAC, changeTitleInTlAC, removeTodolistAC, TodolistReducer } from './Reducers/TodolistReducers';
-import { TasksType, Todolist, } from './Todolist';
+import { addTaskAC, addTaskTLAC, changeStatusAC, changeTitleInTaskAC, deleteTaskLAC, removeTaskAC, TasksReducers } from './Reducers/TasksReducers';
+import {TodolistReducers, changeFilterAC, changeValueInTitleAC, addTodolistAC, removeTodolistAC,} from './Reducers/TodolistReducers';
+import { TasksType, Todolist } from './Todolist';
+import {rootReducerType} from './store/store'
 
 export type FilterValueType = "all" | "active" | "completed"
 
-export type TasksStateType = {
-    [key: string]: Array<TasksType>
-}
 export type TodolistsType = {
     id: string
     title: string
     filter: FilterValueType
 }
 
+export type TasksMainType = {
+    [key: string] : Array<TasksType>
+}
+
 function App() {
 
-    const todolistID1 = v1()
-    const todolistID2 = v1()
+    let todolists = useSelector <rootReducerType, Array<TodolistsType>>(state => state.todolist)
+    let tasks = useSelector <rootReducerType, TasksMainType> (state => state.tasks)
 
-
-    const [todolists, todolistsDispatch] = useReducer(TodolistReducer,[ 
-        { id: todolistID1, title: "What to learn", filter: "all" },
-        { id: todolistID2, title: "What to buy", filter: "all" },
-    ])
-
-    const [tasks, tasksDispatch] = useReducer (TaskReducers,{
-        [todolistID1]:
-            [{ id: v1(), title: "HTML", isDone: true },
-            { id: v1(), title: "CSS", isDone: false },
-            { id: v1(), title: "REACT", isDone: false },
-            { id: v1(), title: "REDUX", isDone: false },],
-        [todolistID2]:
-            [{ id: v1(), title: "fissh", isDone: true },
-            { id: v1(), title: "meat", isDone: false },
-            { id: v1(), title: "salo", isDone: false },
-            { id: v1(), title: "bread", isDone: false },],
-    })
-
+    let dispatch = useDispatch();
     
-
     const removeTask = (TodolistID: string, id: string) => {
-        tasksDispatch(removeTaskAC(TodolistID, id))
+        dispatch(removeTaskAC(TodolistID, id))
     }
 
     const addTask = (TodolistID: string, title: string) => {
-        tasksDispatch(addTaskAC(TodolistID, title))
-        
-    }
-
-    const changeStatus = (TodolistID: string, id: string, isDone: boolean) => {
-        tasksDispatch(changeStatusAC(TodolistID, id, isDone))
+        dispatch(addTaskAC(TodolistID, title))
     }
 
     const changeFilter = (TodolistID: string, value: FilterValueType) => {
-        todolistsDispatch(changeFilterAC(TodolistID, value))
+        dispatch(changeFilterAC(TodolistID, value))
     }
 
-    const removeTodolist = (TodolistID: string) => {
-        todolistsDispatch(removeTodolistAC(TodolistID)) 
-        delete tasks[TodolistID]
-        tasksDispatch(taskAC(tasks))
+    const changeStatus = (TodolistID: string, isDone: boolean, id: string) => {
+        dispatch(changeStatusAC(TodolistID, isDone, id))
+    }
+
+    const removeTodolist = (TodolistID : string) => {
+        dispatch(removeTodolistAC(TodolistID))
+        dispatch(deleteTaskLAC(TodolistID)) 
     }
 
     const addTodolist = (title: string) => {
-        let newID = v1()
-        todolistsDispatch(addTodolistAC(title, newID))
-        tasksDispatch(taskForTlAC(title, newID))
+        let newID = v1() 
+        dispatch(addTodolistAC(title, newID))
+        dispatch(addTaskTLAC(newID)) 
     }
 
-    const changeTaskTitle = (TodolistID: string, newTitle: string, id: string ) => {
-        tasksDispatch(changeTaskTitleAC(TodolistID, newTitle, id))
+    const changeTitleInTask = (TodolistID : string, id: string, title: string) => {
+        dispatch(changeTitleInTaskAC(TodolistID, id, title))
     }
 
-    const changeTitleInTL = (TodolistID: string, newTitle: string) => {
-        todolistsDispatch(changeTitleInTlAC(TodolistID, newTitle)) 
+    const changeTitleInTDlist = (TodolistID : string, title: string) => {
+        dispatch(changeValueInTitleAC(TodolistID, title))
     }
 
     return (
         <div className="App">
-            <AddIteamForm  picValue={addTodolist}/>
-            {todolists.map(tl => {
-
-                let tasksForTLlist = tasks[tl.id]
-
-                if (tl.filter === "active") {
-                    tasksForTLlist = tasks[tl.id].filter(t => t.isDone === false)
+           <AddIteamForm adIteam={addTodolist}/>
+            {todolists?.map(tl => 
+            {
+                let tasksForTL = tasks[tl.id]
+                if(tl.filter === "active"){
+                    tasksForTL = tasks[tl.id].filter(t => t.isDone === false)
                 }
-                if (tl.filter === "completed") {
-                    tasksForTLlist = tasks[tl.id].filter(t => t.isDone === true)
+                if(tl.filter === "completed"){
+                    tasksForTL = tasks[tl.id].filter(t => t.isDone === true)
                 }
-
-                return (<Todolist title={tl.title}
-                    key={tl.id}
-                    TodolistID = {tl.id}
-                    tasks={tasksForTLlist}
-                    filter={tl.filter}
-                    addTask={addTask}
-                    removeTask={removeTask}
-                    changeStatus={changeStatus}
-                    changeFilter={changeFilter}
-                    removeTodolist={removeTodolist}
-                    changeTaskTitle={changeTaskTitle}
-                    changeTitleInTL={changeTitleInTL}
-                    
-                />)
+            
+                return <Todolist title={tl.title}
+                key={tl.id}
+                TodolistID={tl.id}
+                filter={tl.filter} 
+                tasks={tasksForTL}
+                addTask={addTask}
+                removeTask={removeTask} 
+                changeStatus={changeStatus}
+                changeFilter={changeFilter}
+                removeTodolist={removeTodolist} 
+                changeTitleInTask={changeTitleInTask}
+                changeTitleInTDlist={changeTitleInTDlist}
+                />
             })
-
             }
-
+           
         </div>
     );
 }
 
 export default App;
+

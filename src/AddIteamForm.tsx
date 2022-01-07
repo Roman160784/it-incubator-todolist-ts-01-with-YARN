@@ -1,43 +1,41 @@
-import React, { ChangeEvent, useState, KeyboardEvent} from 'react';
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { Button } from './Button';
 import { Input } from './Input';
 
 type AddIteamFormType = {
-    picValue: ( title: string) => void
+    adIteam : (title: string) => void
 }
 
 
 
 export const AddIteamForm = (props: AddIteamFormType) => {
 
-    const [title, setTitle] = useState("")
-    const [error, setError] = useState<string | null>(null)
-
-    const addTask = () => {
-        if (title.trim() !== "") {
-            props.picValue(title)
-            setTitle("")
-        } else {
-            setError("Incorrect VALUE!!!")
-        }
-    }
+    const [title, setTitle] = useState ('')
+    const [error, setError] = useState <string | null> (null)
+    
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            addTask()
+        if(e.key === "Enter") {
+            addTaskHandler()
         }
     }
-
-    const onChangeValueInTile = (e: ChangeEvent<HTMLInputElement>) => {
+    const changeInputValueHandler = ( e: ChangeEvent<HTMLInputElement>) => {
         setError(null)
-        setTitle(e.currentTarget.value)
+        setTitle(e.currentTarget.value)}
+
+    const addTaskHandler = () => {
+        setTitle('')
+        if(title.trim() !== "") {
+        props.adIteam(title)
+    } else {
+        setError("Incorrect!!!")
+    }
     }
 
-
-return(
+    return(
 <div>
-                <Input value={title} onChangeCallBack={onChangeValueInTile} onPresCallBack={onKeyPressHandler} />
-                <Button title="+" class="" clickCalback={addTask} />
-                {error && <div className='errorClass'>{error}</div>}
-            </div>
-)
+                    <Input title={title} class={''} onChangeHandler={changeInputValueHandler} onKeyPressHandler={onKeyPressHandler}/>
+                    <Button title= '+' class={''} callBack={addTaskHandler}/>
+                    {error && <div className='error'>{error}</div>}
+                </div>
+    )
 }
