@@ -1,18 +1,18 @@
 import { v1 } from 'uuid'
 import { TodolistsType, FilterValueType, TasksMainType } from '../App'
-import { todolistID1, todolistID2 } from './TodolistReducers'
+// import { todolistID1, todolistID2 } from './TodolistReducers'
 
 let initialState : TasksMainType = {
-    [todolistID1]: [
-        { id: v1(), title: "HTML", isDone: true },
-        { id: v1(), title: "CSS", isDone: false },
-        { id: v1(), title: "REACT", isDone: false },
-        { id: v1(), title: "REDUX", isDone: false },],
-    [todolistID2]: [
-        { id: v1(), title: "Milk", isDone: true },
-        { id: v1(), title: "SUGAR", isDone: false },
-        { id: v1(), title: "MEAT", isDone: false },
-        { id: v1(), title: "JUICE", isDone: false },],
+    // [todolistID1]: [
+    //     { id: v1(), title: "HTML", isDone: true },
+    //     { id: v1(), title: "CSS", isDone: false },
+    //     { id: v1(), title: "REACT", isDone: false },
+    //     { id: v1(), title: "REDUX", isDone: false },],
+    // [todolistID2]: [
+    //     { id: v1(), title: "Milk", isDone: true },
+    //     { id: v1(), title: "SUGAR", isDone: false },
+    //     { id: v1(), title: "MEAT", isDone: false },
+    //     { id: v1(), title: "JUICE", isDone: false },],
 }
 
 export const TasksReducers = (state: TasksMainType = initialState, action: mainActionTaskType): TasksMainType => {
