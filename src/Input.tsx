@@ -1,16 +1,17 @@
 import React, { ChangeEvent, KeyboardEvent } from 'react';
 
 type InputType = {
-    title: string
-    class: string
-    onChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void
-    onKeyPressHandler: (e: KeyboardEvent<HTMLInputElement>) => void
+value: string
+onChange: (e: ChangeEvent<HTMLInputElement>) => void
+onClick : (e: KeyboardEvent<HTMLInputElement>) => void
 }
 
-export const Input = (props: InputType) => {
+export const Input = React.memo((props: InputType) => {
     return (
-        <input type="text" value={props.title}
-            onChange={props.onChangeHandler}
-            onKeyPress={props.onKeyPressHandler} />
+        <input value={props.value} 
+        type="text" 
+        onChange={props.onChange} 
+        onKeyPress={props.onClick}
+        />
     )
-}
+})

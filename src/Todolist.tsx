@@ -1,76 +1,74 @@
-
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
 import { AddIteamForm } from './AddIteamForm';
 import { FilterValueType } from './App';
 import { Button } from './Button';
 import { EditableSpan } from './EditableSpan';
-import { Input } from './Input';
+import { TasksType } from './Reducers/TaskReducers';
+import { Task } from './Task';
 
-export type TodolistType = {
-    TodolistID: string
+export type TodolistPropsType = {
     title: string
+    todolistID: string
     filter: FilterValueType
     tasks: Array<TasksType>
-    removeTodolist: (TodolistID: string) => void
-    addTask: (TodolistID: string, title: string) => void
-    removeTask: (TodolistID: string, id: string) => void
-    changeTitleInTDlist: (TodolistID: string, title: string) => void
-    changeFilter: (TodolistID: string, value: FilterValueType) => void
-    changeStatus: (TodolistID: string, isDone: boolean, id: string) => void
-    changeTitleInTask: (TodolistID: string, id: string, title: string) => void
+    addTask: (todolistID: string, title: string) => void
+    removeTask: (todolistID: string, id: string) => void
+    changeFilter: (todolistID: string, value: FilterValueType) => void
+    changeStatus: (Todolistid: string, id: string, isDone: boolean) => void
+    removeTodoList: (todolistID: string) => void
+    changeValueInTL: (Todolistid: string, titleInSpan: string) => void
+    changeValueInTask: (Todolistid: string, id: string, titleInSpan : string) => void
 }
 
-export type TasksType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+export const Todolist = React.memo((props: TodolistPropsType) => {
 
-export const Todolist = (props: TodolistType) => {
+    let tasksForTDList = props.tasks
 
-    const removeTodolistHandler = () => { props.removeTodolist(props.TodolistID) }
-    const removeTaskHandler = (id: string) => { props.removeTask(props.TodolistID, id) }
-    const changeFilterHandler = (value: FilterValueType) => { props.changeFilter(props.TodolistID, value) }
-    const AddTasksTitleHandler = (title: string) => { props.addTask(props.TodolistID, title) }
-    const edibleSpanTaskHandler = (title: string, id: string) => { props.changeTitleInTask(props.TodolistID, id, title) }
-    const changeTitleInTDlist = (title: string) => { props.changeTitleInTDlist(props.TodolistID, title) }
+    if (props.filter === "active") {
+        tasksForTDList = props.tasks.filter(t => t.isDone === false)
+    }
+    if (props.filter === "completed") {
+        tasksForTDList = props.tasks.filter(t => t.isDone === true)
+    }
+
+    const addTaskHandler = useCallback((title: string) => { props.addTask(props.todolistID, title) }, [props.addTask, props.todolistID]);
+    const changeFilterHandler = useCallback((value: FilterValueType) => { props.changeFilter(props.todolistID, value) }, [props.changeFilter, props.todolistID])
+    const onChangeTitleInTL = useCallback((titleInSpan: string) => { props.changeValueInTL(props.todolistID, titleInSpan) }, [props.changeValueInTL, props.todolistID])
+    const removeTodoListHandler = useCallback(() => { props.removeTodoList(props.todolistID) }, [props.removeTodoList, props.todolistID])
 
     return (
         <div>
             <h3>
-                <EditableSpan title={props.title} onChange={changeTitleInTDlist} />
-                <Button title='Remove TL' class={''} callBack={removeTodolistHandler} />
+                <EditableSpan title={props.title} onChangeTitle={(titleInSpan: string) => { onChangeTitleInTL(titleInSpan) }} />
+                <Button class={''} title={'Remove'} onClick={removeTodoListHandler} />
             </h3>
-            <AddIteamForm adIteam={AddTasksTitleHandler} />
+            <div>
+                <AddIteamForm addIteam={addTaskHandler} />
+            </div>
             <ul>
-                {props.tasks.map(t => {
-                    const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        const newIsDoneValue = e.currentTarget.checked
-                        props.changeStatus(props.TodolistID, newIsDoneValue, t.id)
-                    }
-
-                    return <li key={t.id} className={t.isDone ? "isDoneClass" : ""}>
-                        <input type="checkbox" checked={t.isDone} onChange={changeStatusHandler} />
-                        <EditableSpan title={t.title} onChange={(title: string) => { edibleSpanTaskHandler(title, t.id) }} />
-                        <Button title='REMOVE' class={''} callBack={() => { removeTaskHandler(t.id) }} />
-                    </li>
-                })
+                {
+                    tasksForTDList.map(t => <Task key={t.id}
+                        task={t}
+                        todolistID={props.todolistID}
+                        changeValueInTask={props.changeValueInTask}
+                        changeStatus={props.changeStatus}
+                        removeTask={props.removeTask} />)
                 }
             </ul>
             <div>
-                <Button title='ALL' class={props.filter === "all" ? "activeClass" : ""}
-                    callBack={() => { changeFilterHandler('all') }} />
-                <Button title='ACTIVE' class={props.filter === "active" ? "activeClass" : ""}
-                    callBack={() => { changeFilterHandler('active') }} />
-                <Button title='COMPLETED' class={props.filter === "completed" ? "activeClass" : ""}
-                    callBack={() => { changeFilterHandler('completed') }} />
+                <Button class={props.filter === "all" ? 'filterClass' : ""}
+                    title='All' onClick={() => { changeFilterHandler("all") }} />
+                <Button class={props.filter === "active" ? 'filterClass' : ""}
+                    title='Active' onClick={() => { changeFilterHandler("active") }} />
+                <Button class={props.filter === "completed" ? 'filterClass' : ""}
+                    title='Completed' onClick={() => { changeFilterHandler("completed") }} />
             </div>
         </div>
     )
-}
+})
 
 
-function title(title: any) {
-    throw new Error('Function not implemented.');
-}
+
+
+
 

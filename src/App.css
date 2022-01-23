@@ -8,14 +8,14 @@
 }
 
 .error {
-  color:blueviolet
+  color: blueviolet;
 }
 
-.activeClass {
-  color:cornsilk;
-  background-color: cornflowerblue;
+.filterClass {
+  color: white;
+  background-color: darkgreen;
 }
 
-.isDoneClass {
+.isDoneStatus {
   opacity: 0.5;
 }

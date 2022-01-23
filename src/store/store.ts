@@ -1,10 +1,10 @@
-import {combineReducers, createStore} from "redux";
-import { TasksReducers } from "../Reducers/TasksReducers";
-import { TodolistReducers } from "../Reducers/TodolistReducers";
+import { combineReducers, createStore } from "redux";
+import { TaskReducer } from "../Reducers/TaskReducers";
+import { TodolistReducer } from "../Reducers/TodolistReducers";
 
-let rootReducer=combineReducers({
-    tasks:TasksReducers,
-    todolist: TodolistReducers
+let rootReducer = combineReducers({
+   tasks : TaskReducer,
+   todolist : TodolistReducer,
 })
 
 export type rootReducerType = ReturnType<typeof rootReducer>

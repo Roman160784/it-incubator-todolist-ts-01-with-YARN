@@ -2,40 +2,39 @@ import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { Button } from './Button';
 import { Input } from './Input';
 
-type AddIteamFormType = {
-    adIteam : (title: string) => void
+export type AddIteamFormType ={
+    addIteam : (title: string) => void
 }
 
 
+export const AddIteamForm = React.memo( (props: AddIteamFormType) => {
 
-export const AddIteamForm = (props: AddIteamFormType) => {
-
-    const [title, setTitle] = useState ('')
+    const[title, setTitle] = useState("")
     const [error, setError] = useState <string | null> (null)
-    
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(e.key === "Enter") {
-            addTaskHandler()
-        }
-    }
-    const changeInputValueHandler = ( e: ChangeEvent<HTMLInputElement>) => {
-        setError(null)
-        setTitle(e.currentTarget.value)}
 
     const addTaskHandler = () => {
         setTitle('')
-        if(title.trim() !== "") {
-        props.adIteam(title)
-    } else {
-        setError("Incorrect!!!")
+        if(title.trim() !== ""){
+        props.addIteam(title)
+        }else {
+            setError("Incorrect Value")
+        }
     }
+    
+    const onClickInputHandler = (e:KeyboardEvent<HTMLInputElement>) => {
+        if(error !== null) {
+            setError(null)
+        }
+        if(e.key === "Enter"){
+            addTaskHandler()
+        }
     }
-
-    return(
-<div>
-                    <Input title={title} class={''} onChangeHandler={changeInputValueHandler} onKeyPressHandler={onKeyPressHandler}/>
-                    <Button title= '+' class={''} callBack={addTaskHandler}/>
-                    {error && <div className='error'>{error}</div>}
+return(<div>
+               <Input value={title}  onChange={(e) => {setTitle(e.currentTarget.value)}} onClick={onClickInputHandler}/>
+                <Button class="" title={'+'} onClick={addTaskHandler}/>
+                { error && <div className='error'>{error}</div>}
                 </div>
-    )
-}
+)
+})
+
+
