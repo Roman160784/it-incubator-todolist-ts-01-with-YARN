@@ -1,5 +1,6 @@
 import { v1 } from 'uuid'
-import { TodolistsType, FilterValueType, TasksMainType } from '../App'
+import {  FilterValueType,  } from '../App'
+import { TasksMainType } from './TaskReducers'
 // import { todolistID1, todolistID2 } from './TodolistReducers'
 
 let initialState : TasksMainType = {
